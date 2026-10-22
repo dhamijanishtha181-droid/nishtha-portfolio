@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Personal portfolio website" />
+  <title>Nishtha Dhamija | Portfolio</title>
+  <style>
+    :root {
+      --bg: #f7f5f2;
+      --surface: #ffffff;
+      --text: #242321;
+      --muted: #77736e;
+      --accent: #b65f45;
+      --accent-dark: #8f422e;
+      --line: #e8e1da;
+      --soft: #f1e5de;
+      --shadow: 0 18px 50px rgba(45, 31, 23, .08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(1100px, 90%); margin: auto; }
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(247, 245, 242, .92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232, 225, 218, .8);
+    }
+    nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font-weight: 800; letter-spacing: -.04em; font-size: 1.25rem; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 25px; list-style: none; }
+    .nav-links a { font-size: .92rem; color: var(--muted); transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent-dark); }
+    .menu-toggle { display: none; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 11px; cursor: pointer; }
+    .hero { padding: 95px 0 82px; display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 70px; }
+    .eyebrow { color: var(--accent-dark); font-size: .78rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    h1 { font-size: clamp(2.7rem, 6vw, 5.2rem); line-height: 1.04; letter-spacing: -.065em; margin: 18px 0 22px; }
+    h1 .highlight { color: var(--accent); }
+    .hero p { max-width: 570px; color: var(--muted); font-size: 1.08rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 30px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 19px; border-radius: 999px; font-weight: 700; border: 1px solid var(--text); transition: transform .2s, background .2s; cursor: pointer; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary { background: var(--text); color: white; }
+    .btn.secondary { border-color: var(--line); background: var(--surface); }
+    .portrait-card { position: relative; min-height: 400px; border-radius: 28px; overflow: hidden; background: linear-gradient(145deg, #e7c5b5, #d7a18b 48%, #9d5d48); box-shadow: var(--shadow); display: grid; place-items: center; }
+    .portrait-card::before, .portrait-card::after { content: ""; position: absolute; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; }
+    .portrait-card::before { width: 310px; height: 310px; }
+    .portrait-card::after { width: 390px; height: 390px; }
+    .portrait-art { position: relative; z-index: 1; font-size: 7rem; filter: drop-shadow(0 10px 14px rgba(75, 35, 23, .18)); }
+    .portrait-label { position: absolute; bottom: 22px; left: 22px; z-index: 2; background: rgba(255,255,255,.88); padding: 10px 15px; border-radius: 13px; font-size: .85rem; font-weight: 700; }
+    section { padding: 75px 0; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 25px; margin-bottom: 32px; }
+    .section-heading h2 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.05em; line-height: 1.1; margin-top: 10px; }
+    .section-heading p { max-width: 440px; color: var(--muted); }
+    .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 24px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 28px; box-shadow: 0 8px 28px rgba(45,31,23,.03); }
+    .about-card p { color: var(--muted); margin-top: 12px; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .stat { background: var(--soft); border-radius: 18px; padding: 22px; }
+    .stat strong { display: block; font-size: 1.7rem; letter-spacing: -.04em; }
+    .stat span { color: var(--muted); font-size: .9rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .skill-card h3 { margin-bottom: 15px; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
+    .tag-list li { background: var(--soft); color: var(--accent-dark); padding: 7px 11px; border-radius: 999px; font-size: .86rem; }
+    .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .project-card { padding: 0; overflow: hidden; }
+    .project-visual { height: 150px; display: grid; place-items: center; font-size: 2.5rem; background: linear-gradient(135deg, #f2dfd5, #e8b9a5); }
+    .project-card:nth-child(2) .project-visual { background: linear-gradient(135deg, #e7e5d8, #bfc5a9); }
+    .project-card:nth-child(3) .project-visual { background: linear-gradient(135deg, #e4d9ed, #c2add5); }
+    .project-content { padding: 23px; }
+    .project-content p { color: var(--muted); font-size: .94rem; margin: 9px 0 15px; }
+    .text-link { color: var(--accent-dark); font-weight: 800; font-size: .9rem; }
+    .experience { display: grid; grid-template-columns: 150px 1fr; gap: 25px; padding: 25px 0; border-top: 1px solid var(--line); }
+    .experience time { color: var(--accent-dark); font-weight: 800; }
+    .experience p { color: var(--muted); margin-top: 8px; }
+    .contact-box { background: #292522; color: white; border-radius: 28px; padding: clamp(28px, 6vw, 55px); display: grid; grid-template-columns: 1fr .8fr; gap: 35px; align-items: center; }
+    .contact-box .eyebrow { color: #e4a58f; }
+    .contact-box h2 { font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.05em; line-height: 1.1; margin: 12px 0 16px; }
+    .contact-box p { color: #c9c1bb; }
+    .contact-details { display: grid; gap: 12px; }
+    .contact-details a { border: 1px solid #514943; border-radius: 13px; padding: 12px 15px; color: #f3e8e1; overflow-wrap: anywhere; }
+    footer { padding: 28px 0; color: var(--muted); font-size: .9rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; gap: 35px; padding-top: 65px; }
+      .portrait-card { min-height: 320px; }
+      .about-grid, .contact-box { grid-template-columns: 1fr; }
+      .skills-grid, .projects { grid-template-columns: repeat(2, 1fr); }
+      .section-heading { align-items: start; flex-direction: column; }
+    }
+    @media (max-width: 600px) {
+      .menu-toggle { display: inline-block; }
+      .nav-links { display: none; position: absolute; top: 76px; left: 0; right: 0; padding: 20px 5%; background: var(--bg); border-bottom: 1px solid var(--line); flex-direction: column; align-items: start; gap: 15px; }
+      .nav-links.open { display: flex; }
+      .skills-grid, .projects { grid-template-columns: 1fr; }
+      .experience { grid-template-columns: 1fr; gap: 5px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container" aria-label="Main navigation">
+      <a class="brand" href="#home">Nishtha<span>.</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container" id="home">
+      <div class="reveal">
+        <div class="eyebrow">BBA Student · Aspiring Professional</div>
+        <h1>Hi, I'm Nishtha.<br /><span class="highlight">I make ideas</span><br />happen.</h1>
+        <p>I'm a BBA student interested in business, communication, creative projects, and building meaningful experiences. Welcome to my personal portfolio.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#projects">Explore my work ↗</a>
+          <a class="btn secondary" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <div class="portrait-card reveal" aria-label="Decorative profile illustration">
+        <div class="portrait-art" aria-hidden="true">✦</div>
+        <div class="portrait-label">Curious mind. Creative energy.</div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="eyebrow">A little about me</div><h2>Learning, creating,<br />and growing.</h2></div>
+          <p>I enjoy learning how businesses work, communicating with people, and turning ideas into well-organised projects.</p>
+        </div>
+        <div class="about-grid">
+          <article class="card about-card reveal">
+            <h3>My story</h3>
+            <p>I'm pursuing a Bachelor of Business Administration (BBA) at Poornima University. Through academics and practical exposure, I'm developing my understanding of management, teamwork, coordination, and professional communication.</p>
+            <p>This portfolio is a snapshot of my interests, skills, and learning journey. I'm always open to learning something new and taking on meaningful challenges.</p>
+          </article>
+          <div class="stats reveal">
+            <div class="stat"><strong>BBA</strong><span>Academic journey</span></div>
+            <div class="stat"><strong>People</strong><span>Communication & teamwork</span></div>
+            <div class="stat"><strong>Ideas</strong><span>Creative thinking</span></div>
+            <div class="stat"><strong>Growth</strong><span>Always learning</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="eyebrow">What I bring</div><h2>Skills & interests.</h2></div>
+          <p>A growing toolkit built through coursework, projects, and practical experience. Edit these tags to reflect your strongest skills.</p>
+        </div>
+        <div class="skills-grid">
+          <article class="card skill-card reveal">
+            <h3>Professional</h3>
+            <ul class="tag-list"><li>Communication</li><li>Teamwork</li><li>Coordination</li><li>Time management</li></ul>
+          </article>
+          <article class="card skill-card reveal">
+            <h3>Business</h3>
+            <ul class="tag-list"><li>Business fundamentals</li><li>Marketing</li><li>Research</li><li>Problem-solving</li></ul>
+          </article>
+          <article class="card skill-card reveal">
+            <h3>Creative & Digital</h3>
+            <ul class="tag-list"><li>Content ideas</li><li>Presentation design</li><li>Social media</li><li>Web basics</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="eyebrow">Selected work</div><h2>Projects & highlights.</h2></div>
+          <p>Replace these sample cards with your actual college assignments, projects, certificates, or event work.</p>
+        </div>
+        <div class="projects">
+          <article class="card project-card reveal">
+            <div class="project-visual" aria-hidden="true">✧</div>
+            <div class="project-content">
+              <h3>Event Coordination</h3>
+              <p>Practical exposure to pre-event communication, participant coordination, and registration support.</p>
+              <span class="text-link">Practical learning</span>
+            </div>
+          </article>
+          <article class="card project-card reveal">
+            <div class="project-visual" aria-hidden="true">▤</div>
+            <div class="project-content">
+              <h3>Business Research</h3>
+              <p>Academic work focused on understanding business concepts, organising information, and presenting findings.</p>
+              <span class="text-link">Academic project</span>
+            </div>
+          </article>
+          <article class="card project-card reveal">
+            <div class="project-visual" aria-hidden="true">✳</div>
+            <div class="project-content">
+              <h3>Digital Portfolio</h3>
+              <p>A responsive single-page website built with HTML, CSS, and JavaScript to showcase personal work.</p>
+              <span class="text-link">Web project</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="eyebrow">My journey</div><h2>Experience & education.</h2></div>
+          <p>A simple timeline for your education, internships, volunteering, and other practical learning.</p>
+        </div>
+        <div class="experience reveal">
+          <time>May – July</time>
+          <div><h3>Summer Internship · Coverwell ID Co.</h3><p>Supported backend event operations, pre-event coordination, hosted-buyer and exhibitor communication, accommodation coordination, and registration-desk activities across assigned events.</p></div>
+        </div>
+        <div class="experience reveal">
+          <time>Ongoing</time>
+          <div><h3>Bachelor of Business Administration</h3><p>Poornima University · Building a foundation in management, marketing, business communication, and organisational practices.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box reveal">
+          <div>
+            <div class="eyebrow">Let's connect</div>
+            <h2>Have an idea?<br />Let's talk.</h2>
+            <p>I'm open to connecting about projects, learning opportunities, and professional collaborations.</p>
+          </div>
+          <div class="contact-details">
+            <a href="mailto:your.email@example.com" id="emailLink">✉️ your.email@example.com</a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">↗ LinkedIn profile — add your link</a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">↗ Instagram — add your profile</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> Nishtha Dhamija</span>
+      <span>Made with curiosity & care.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile navigation menu
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      menuToggle.textContent = isOpen ? '✕' : '☰';
+    });
+
+    // Close the mobile menu after selecting a section
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Open navigation menu');
+        menuToggle.textContent = '☰';
+      });
+    });
+
+    // Reveal sections as they enter the viewport
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Highlight the current section in the navigation
+    const sections = document.querySelectorAll('main section[id]');
+    const navItems = document.querySelectorAll('.nav-links a');
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navItems.forEach(item => {
+            item.classList.toggle('active', item.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    sections.forEach(section => sectionObserver.observe(section));
+
+    // Keep the footer year current
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Optional: update the email address in one place before publishing.
+    // Replace your.email@example.com with your real email address in both places above.
+  </script>
+</body>
+</html>
